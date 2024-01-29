@@ -12,7 +12,6 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-
     const onUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setformInput(oldData => ({
             ...oldData,
@@ -58,7 +57,13 @@ const Login = () => {
                     value={formInput.password}
                     onChange={onUserInput}
                 />
-                <Button variant='contained' size='medium' onClick={onLogin}>Login</Button>
+                <Button
+                    variant='contained'
+                    size='medium'
+                    onClick={onLogin}
+                    disabled={formInput.email.length === 0 || formInput.password.length < 6}
+                >Login
+                </Button>
             </FormControl>
         </Stack>
     )

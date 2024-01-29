@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import RootLayout from '../pages/RootPage';
 import Login from '../components/Login';
-import Table from '../components/Table';
+import TableView from '../components/TableView';
 
 
 const router = createBrowserRouter([
@@ -10,7 +10,7 @@ const router = createBrowserRouter([
         element: <RootLayout />,
         children: [
             { index: true, element: <Login /> },
-            { path: '/table', element: <Table /> },
+            { path: '/table', element: <TableView /> },
         ]
 
     }
