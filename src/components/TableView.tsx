@@ -8,7 +8,6 @@ import { SwapiDataType } from "../util/types";
 import WarningIcon from '@mui/icons-material/Warning';
 import classes from './TableView.module.css';
 
-
 const TableView = () => {
 
     const [tableData, setTableData] = useState<SwapiDataType | null>();
@@ -21,7 +20,9 @@ const TableView = () => {
         setIsloading(true);
         const fetchSwapiData = async () => {
             try {
-                const response = await fetch(page === 1 ? 'https://swapi.dev/api/people' : `https://swapi.dev/api/people/?page=${page}`)
+                // The requirement is to use 'https://swapi.dev/api/people', if we have to adhere to that use the following code:
+                // const response = await fetch(page === 1 ? 'https://swapi.dev/api/people' : `https://swapi.dev/api/people/?page=${page}`)
+                const response = await fetch(`https://swapi.dev/api/people/?page=${page}`)
                 const data = await response.json();
                 if (data) {
                     setIsloading(false)
@@ -32,11 +33,9 @@ const TableView = () => {
             } catch (error) {
                 setError(true)
             }
-
         }
 
         fetchSwapiData();
-
 
     }, [page])
 

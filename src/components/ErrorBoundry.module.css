@@ -1,0 +1,25 @@
+.centeredFeedback {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}
+
+
+.centeredFeedback h1 {
+    color: rgb(244, 35, 35);
+    text-align: center;
+}
+
+.backToHomePageBtn {
+    margin-top: 10%;
+    text-align: center;
+}
+
+.flexErrorContainer {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 0;
+}
