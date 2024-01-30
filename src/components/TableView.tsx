@@ -19,9 +19,10 @@ const TableView = () => {
 
         const controller = new AbortController();
         const signal = controller.signal;
-        setIsloading(true)
 
         const fetchSwapiData = async () => {
+            setIsloading(true)
+
             try {
                 // The requirement is to use 'https://swapi.dev/api/people', if we have to adhere to that use the following code:
                 // const response = await fetch(page === 1 ? 'https://swapi.dev/api/people' : `https://swapi.dev/api/people/?page=${page}`, { signal })
@@ -31,9 +32,11 @@ const TableView = () => {
                 setTableData(data)
 
             } catch (error) {
+                if (error instanceof DOMException) {
+                    return;
+                }
                 setError(true)
             }
-
         }
 
         fetchSwapiData();
