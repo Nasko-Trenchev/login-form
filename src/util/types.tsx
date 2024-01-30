@@ -24,3 +24,11 @@ export type SwapiDataType = {
     previous: null | string,
     results: SwapiPeopleResults
 }
+
+export interface Column {
+    id: 'name' | 'mass' | 'height' | 'hair_color' | 'skin_color';
+    label: string;
+    minWidth?: number;
+    align?: 'right' | 'center';
+    format?: (value: number) => string;
+}

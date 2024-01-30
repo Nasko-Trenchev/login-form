@@ -1,50 +1,18 @@
 import { useEffect, useState } from "react";
 import {
     CircularProgress, Pagination, Paper, Table, TableBody,
-    TableCell, TableContainer, TableRow, TableHead
+    TableCell, TableContainer, TableRow, TableHead, Box
 } from "@mui/material";
+import { swapiTablecolumns } from "../util/constants";
 import { SwapiDataType } from "../util/types";
 import classes from './TableView.module.css';
 
-interface Column {
-    id: 'name' | 'mass' | 'height' | 'hair_color' | 'skin_color';
-    label: string;
-    minWidth?: number;
-    align?: 'right';
-    format?: (value: number) => string;
-}
-
-const columns: Column[] = [
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'mass', label: 'Mass', minWidth: 100 },
-    {
-        id: 'height',
-        label: 'Height',
-        minWidth: 170,
-        align: 'right',
-        format: (value: number) => value.toLocaleString('en-US'),
-    },
-    {
-        id: 'hair_color',
-        label: 'Hair color',
-        minWidth: 170,
-        align: 'right',
-        format: (value: number) => value.toLocaleString('en-US'),
-    },
-    {
-        id: 'skin_color',
-        label: 'Skin Color',
-        minWidth: 170,
-        align: 'right',
-        format: (value: number) => value.toFixed(2),
-    },
-];
 
 const TableView = () => {
 
     const [tableData, setTableData] = useState<SwapiDataType | null>();
     const [isLoading, setIsloading] = useState(true);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
 
@@ -76,22 +44,22 @@ const TableView = () => {
 
     return (
         <Paper sx={{ width: 'auto', margin: 'auto' }}>
-            <TableContainer sx={{ maxHeight: 640 }}>
+            <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center" colSpan={5}>
+                            <TableCell align="center" colSpan={5} style={{ fontWeight: 'bolder' }}>
                                 Swapi Characters
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            {columns.map((column) => (
+                            {swapiTablecolumns.map((swapiTablecolumns) => (
                                 <TableCell
-                                    key={column.id}
-                                    align={column.align}
-                                    style={{ top: 57, minWidth: column.minWidth }}
+                                    key={swapiTablecolumns.id}
+                                    align={swapiTablecolumns.align}
+                                    style={{ top: 57, minWidth: swapiTablecolumns.minWidth, fontWeight: 'bold' }}
                                 >
-                                    {column.label}
+                                    {swapiTablecolumns.label}
                                 </TableCell>
                             ))}
                         </TableRow>
@@ -100,13 +68,11 @@ const TableView = () => {
                         {tableData?.results.map((data) => {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={`${data.height}${data.mass}`}>
-                                    {columns.map((column) => {
+                                    {swapiTablecolumns.map((column) => {
                                         const value = data[column.id];
                                         return (
                                             <TableCell key={column.id} align={column.align}>
-                                                {column.format && typeof value === 'number'
-                                                    ? column.format(value)
-                                                    : value}
+                                                {value}
                                             </TableCell>
                                         );
                                     })}
@@ -115,11 +81,14 @@ const TableView = () => {
                         })}
                     </TableBody>
                 </Table>
+                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '1em', marginBottom: '1em' }}>
+                    <Pagination
+                        count={tableData?.count ? Math.ceil(tableData.count / 10) : 0}
+                        page={page}
+                        onChange={handlePageChange}
+                    />
+                </Box >
             </TableContainer>
-            <Pagination
-                count={tableData?.count ? Math.ceil(tableData.count / 10) : 0}
-                onChange={handlePageChange}
-            />
         </Paper>
     )
 }

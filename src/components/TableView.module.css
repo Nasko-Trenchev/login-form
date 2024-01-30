@@ -1,3 +1,7 @@
 .centeredFeedback {
     margin: auto;
 }
+
+.centeredPagination {
+    justify-items: center;
+}
