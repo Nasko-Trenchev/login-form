@@ -17,22 +17,26 @@ const TableView = () => {
 
     useEffect(() => {
 
-        setIsloading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
+        setIsloading(true)
+
         const fetchSwapiData = async () => {
             try {
                 // The requirement is to use 'https://swapi.dev/api/people', if we have to adhere to that use the following code:
-                // const response = await fetch(page === 1 ? 'https://swapi.dev/api/people' : `https://swapi.dev/api/people/?page=${page}`)
-                const response = await fetch(`https://swapi.dev/api/people/?page=${page}`)
+                // const response = await fetch(page === 1 ? 'https://swapi.dev/api/people' : `https://swapi.dev/api/people/?page=${page}`, { signal })
+                const response = await fetch(`https://swapi.dev/api/people/?page=${page}`, { signal })
                 const data = await response.json();
-                if (data) {
-                    setIsloading(false)
-                    setTableData(() => {
-                        return data
-                    });
-                }
+                setIsloading(false)
+                setTableData(data)
+
             } catch (error) {
                 setError(true)
             }
+
+            return () => {
+                controller.abort();
+            };
         }
 
         fetchSwapiData();
@@ -68,7 +72,7 @@ const TableView = () => {
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center" colSpan={5} style={{ fontWeight: 'bolder' }}>
+                            <TableCell align="center" colSpan={5} style={{ fontWeight: 'bolder', font: '1.5em' }}>
                                 Swapi Characters
                             </TableCell>
                         </TableRow>
@@ -77,7 +81,7 @@ const TableView = () => {
                                 <TableCell
                                     key={swapiTablecolumns.id}
                                     align={swapiTablecolumns.align}
-                                    style={{ top: 57, minWidth: swapiTablecolumns.minWidth, fontWeight: 'bold' }}
+                                    style={{ top: 57, fontWeight: 'bold' }}
                                 >
                                     {swapiTablecolumns.label}
                                 </TableCell>

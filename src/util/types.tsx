@@ -30,5 +30,4 @@ export interface Column {
     label: string;
     minWidth?: number;
     align?: 'right' | 'center';
-    format?: (value: number) => string;
 }
