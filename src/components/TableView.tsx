@@ -34,12 +34,13 @@ const TableView = () => {
                 setError(true)
             }
 
-            return () => {
-                controller.abort();
-            };
         }
 
         fetchSwapiData();
+
+        return () => {
+            controller.abort();
+        };
 
     }, [page])
 
