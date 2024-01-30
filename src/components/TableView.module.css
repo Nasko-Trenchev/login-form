@@ -5,3 +5,10 @@
 .centeredPagination {
     justify-items: center;
 }
+
+.flexErrorContainer {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 0;
+}

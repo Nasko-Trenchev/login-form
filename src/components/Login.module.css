@@ -22,7 +22,7 @@
     color: rgb(119, 126, 126);
 }
 
-@media (max-width: 300px) {
+@media (max-width: 500px) {
     .login-form {
         padding: 2em;
         margin: 0;

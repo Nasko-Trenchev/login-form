@@ -5,6 +5,7 @@ import {
 } from "@mui/material";
 import { swapiTablecolumns } from "../util/constants";
 import { SwapiDataType } from "../util/types";
+import WarningIcon from '@mui/icons-material/Warning';
 import classes from './TableView.module.css';
 
 
@@ -12,27 +13,47 @@ const TableView = () => {
 
     const [tableData, setTableData] = useState<SwapiDataType | null>();
     const [isLoading, setIsloading] = useState(true);
+    const [error, setError] = useState(false)
     const [page, setPage] = useState(1);
 
     useEffect(() => {
 
         setIsloading(true);
         const fetchSwapiData = async () => {
-            const response = await fetch(page === 0 ? 'https://swapi.dev/api/people' : `https://swapi.dev/api/people/?page=${page}`)
-            const data = await response.json();
-            if (data) {
-                setIsloading(false);
-                setTableData(data);
+            try {
+                const response = await fetch(page === 1 ? 'https://swapi.dev/api/people' : `https://swapi.dev/api/people/?page=${page}`)
+                const data = await response.json();
+                if (data) {
+                    setIsloading(false)
+                    setTableData(() => {
+                        return data
+                    });
+                }
+            } catch (error) {
+                setError(true)
             }
+
         }
 
         fetchSwapiData();
+
 
     }, [page])
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value)
     }
+
+    if (error) return (
+        <div className={classes.centeredFeedback}>
+            <div className={classes.flexErrorContainer}>
+                <WarningIcon color="error" />
+                <h4>You`ve encountered an error</h4>
+            </div>
+            <p>It seems like our servers are busy right now...</p>
+            <p>Please excuse the inconvinance and come back later</p>
+        </div>
+    )
 
     if (isLoading) {
         return (
